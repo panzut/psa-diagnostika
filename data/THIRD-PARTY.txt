@@ -1,0 +1,19 @@
+PSA-RE database attribution
+
+Source: https://github.com/prototux/PSA-RE
+Revision: 67f7581e7622410efdbb29c7eda3b86982b9b450
+Licence: Apache License, Version 2.0; full text in PSA-RE-LICENSE.txt.
+Archive SHA256: 405CF360B4FCEF85391CAFFD2A142769B4394EF82DC4AD2F7F879CA36717D951
+
+This project transforms the upstream YAML vehicle/ECU definitions into JSON.
+Changes: selects readable LIDs/DIDs; retains variant layouts, scaling, enum
+labels and DTC descriptions; adds Czech vehicle-node labels; separates
+catalogue entries from enabled/qualified transport operations; records only
+the documented C0/81 cabin-session capability. Upstream executable code,
+security algorithms, write routines and actuator commands are not executed.
+No endorsement by the upstream author, vehicle manufacturers or Delphi
+is claimed. The catalogue is community data, not a statement of tested
+coverage. Original declarations can be traced via Source paths and revision.
+
+Build dependency: yaml 2.8.1 (ISC), installed in node_modules; its license is
+in node_modules/yaml/LICENSE. Not needed to run the compiled .NET reader.

@@ -1,0 +1,4 @@
+*.exe
+logs/
+*.zip
+node_modules/

@@ -1,0 +1,68 @@
+PSA Diagnostika 0.3.0-test — veřejný balíček
+
+SPUŠTĚNÍ
+Rozbal celý ZIP do vlastní zapisovatelné složky. Spusť PsaReader.exe.
+Program potřebuje Windows s .NET Framework 4.5 nebo novějším a nainstalovaný
+USB ovladač DS150E/CDP+. Delphi musí být zavřená. Připoj jen jednu krabičku.
+Firmware ani Delphi se neaktualizují. Jiné sériové číslo a jiné číslo firmware
+nejsou automaticky odmítnuty; program kontroluje model CDP+ a odpovědi příkazů.
+Automatické nalezení USB používá VID 0403 / PID D6DA. Bluetooth a jiné USB ID
+zatím nejsou součástí tohoto ovladače.
+
+ČTENÍ
+1. Vyber správný model a ročníkovou variantu vozidla.
+2. Auto nech stát, zapni zapalování a potvrď připravené vozidlo.
+3. Použij Vyhledat jednotky nebo Přečíst všechna data auta.
+4. Dvojklikem otevři jednotku: Přehled, Závady, Hodnoty a Surová data.
+5. Průběh, odpovědi adaptéru a ECU i chyby se ukládají do složky logs.
+
+Databáze: 117 variant vozidel, 486 definic jednotek.
+Tato verze umí naplánovat čtení pro 57 profilů s doloženými CAN cestami
+AEE2004/AEE2010. Zkouší adresy příslušného profilu, nikoli všechna CAN ID.
+Stejná rozpoznaná jednotka používá společný čtecí postup a svou definici.
+Nejednoznačná odpověď zůstane surová; nepředstírá se správný překlad hodnot.
+Čtení závad: KWP 17 FF 00 a UDS 19 02 FF podle schopností v databázi.
+Počet definic neznamená počet jednotek odzkoušených na skutečných autech.
+K-line/VAN, NEA2020/DoIP a partnerské architektury zatím nemají tento ovladač;
+u profilů bez dostupné cesty je k dispozici databáze a vysvětlení omezení.
+
+MAZÁNÍ ZÁVAD
+Na kartě Závady je samostatné tlačítko pro rozpoznanou jednotku s doloženým
+protokolem. Motor vypnutý, zapalování zapnuté, auto stojí. Po potvrzení se
+znovu ověří identifikace a uloží původní paměť do logu, provede se jeden pokus
+o smazání a kontrolní čtení. Aktuální závady se mohou ihned vrátit.
+Mazání může odstranit i související diagnostické údaje a neopravuje příčinu.
+Nejde o hromadné mazání všech jednotek. Odmítnutí ani timeout se automaticky
+neopakují. KWP a UDS postupy jsou zatím ověřené simulací, ne na vozidle.
+SRS, airbagy, předpínače a pyrotechnické prvky: vždy pouze čtení, žádné mazání,
+odemykání, resetování, zápisy ani aktivace.
+
+POSLÁNÍ LOGŮ
+V hlavním okně klikni Exportovat logy… a ulož ZIP. Pošli tento ZIP k rozboru.
+Obsahuje všechny místní logy a INFO.txt s verzí programu, jeho SHA256,
+verzí databáze, Windows/.NET a vybraným profilem. Logy mohou obsahovat VIN.
+Připiš skutečný model, rok a motor auta, co jsi zkoušel a co se stalo.
+Veřejný balíček neobsahuje osobní diagnostické logy. Testovací fixtures
+obsahují protokolové mapy a upravené regresní vektory, nikoli historii auta.
+Pro novou verzi rozbal nový balíček do nové složky; vlastní logs si zachovej.
+
+DALŠÍ FUNKCE
+Zápisy denního svícení a servisního intervalu zůstávají vázané na konkrétní
+profil a přesnou identifikaci BSI. Rozšíření čtení je neodemklo dalším autům.
+Akční testy příslušenství nejsou dostupné.
+
+ZDROJE A SESTAVENÍ
+Databáze PSA-RE: https://github.com/prototux/PSA-RE
+Revize: 67f7581e7622410efdbb29c7eda3b86982b9b450
+Licence a atribuce jsou v data/THIRD-PARTY.txt a data/PSA-RE-LICENSE.txt.
+Podklady pro CAN-DIAG AEE2004/AEE2010:
+https://github.com/ludwig-v/arduino-psa-diag/blob/master/README.md
+UDS čtení a mazání závad:
+https://udsoncan.readthedocs.io/en/latest/udsoncan/services.html
+https://udsoncan.readthedocs.io/en/latest/udsoncan/client.html
+KWP: PSA-RE diag/protocols/KWP-PSA2000.yml.
+BsiConfigurationKey.cs obsahuje adaptaci algoritmu pod GPL v3 nebo novější;
+úplná licence je v data/upstream/psa-coding-reference/seedkey-LICENSE.
+Odpovídající zdrojové soubory jsou přiložené v kořeni projektu. Pro sestavení
+spusť build.ps1. Testy používají simulaci a nepřipojují se k autu.
+Delphi ani jeho knihovny nejsou součástí balíčku.
